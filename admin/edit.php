@@ -1,16 +1,12 @@
 <?php
-session_start();
-require_once 'inc/auth.php';
 require_once '../inc/config.php';
 require_once '../inc/functions.php';
+require_once 'inc/auth.php';
 
-if (!isset($_GET['id'])) {
-    header("Location: dashboard.php");
-    exit;
-}
+checkLogin();
 
-$id = (int)$_GET['id'];
-$post = getPostByIdForEdit($conn, $id);
+$post_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$post = getPostByIdForEdit($conn, $post_id);
 
 if (!$post) {
     header("Location: dashboard.php");
@@ -18,60 +14,53 @@ if (!$post) {
 }
 
 $errors = [];
-$title = $post['title'];
-$content = $post['content'];
-$status = $post['status'];
-$currentImage = $post['image'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = trim($_POST['title'] ?? '');
-    $content = trim($_POST['content'] ?? '');
-    $status = $_POST['status'] ?? 'draft';
+    $title = trim($_POST['title']);
+    $content = trim($_POST['content']);
+    $status = in_array($_POST['status'], ['draft', 'published']) ? $_POST['status'] : 'draft';
+    $slug = slugify($title);
 
-    if (!$title) {
-        $errors[] = "Judul wajib diisi.";
-    }
-    if (!$content) {
-        $errors[] = "Konten wajib diisi.";
-    }
+    $imageFileName = null;
 
-    // Proses upload gambar baru jika ada
-    $imageName = $currentImage; // default tetap gambar lama
+    // Cek apakah ada file gambar yang diupload
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        if (!in_array($_FILES['image']['type'], $allowedTypes)) {
-            $errors[] = "Format gambar harus JPG, PNG, atau GIF.";
-        } else {
-            $imageTmp = $_FILES['image']['tmp_name'];
-            $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-            $imageName = time() . '_' . bin2hex(random_bytes(5)) . '.' . $ext;
-            $targetPath = '../uploads/' . $imageName;
+        $uploadDir = '../uploads/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+        $tmpName = $_FILES['image']['tmp_name'];
+        $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+        $imageFileName = time() . '_' . bin2hex(random_bytes(5)) . '.' . $ext;
+        $destination = $uploadDir . $imageFileName;
 
-            if (!move_uploaded_file($imageTmp, $targetPath)) {
-                $errors[] = "Gagal mengunggah gambar.";
-            } else {
-                // Hapus gambar lama jika ada dan berbeda
-                if ($currentImage && file_exists('../uploads/' . $currentImage)) {
-                    unlink('../uploads/' . $currentImage);
-                }
+        // Validasi tipe file sederhana
+        $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+        if (!in_array(strtolower($ext), $allowedTypes)) {
+            $errors[] = "Tipe file gambar tidak diperbolehkan.";
+        } else {
+            if (!move_uploaded_file($tmpName, $destination)) {
+                $errors[] = "Gagal mengupload gambar.";
             }
         }
     }
 
     if (empty($errors)) {
-        $slug = slugify($title);
-        $stmt = $conn->prepare("UPDATE posts SET title = ?, slug = ?, content = ?, status = ?, image = ? WHERE id = ?");
-        $stmt->bind_param("sssssi", $title, $slug, $content, $status, $imageName, $id);
+        if ($imageFileName) {
+            // Hapus gambar lama kalau ada dan beda
+            if (!empty($post['image']) && file_exists('../uploads/' . $post['image'])) {
+                unlink('../uploads/' . $post['image']);
+            }
+        } else {
+            $imageFileName = null; // biar updatePost tahu gak ganti gambar
+        }
 
-        if ($stmt->execute()) {
-            header("Location: dashboard.php?msg=Artikel berhasil diperbarui");
+        $updated = updatePost($conn, $post_id, $title, $slug, $content, $status, $imageFileName);
+        if ($updated) {
+            header("Location: dashboard.php");
             exit;
         } else {
-            $errors[] = "Gagal memperbarui data di database.";
-            // Jika upload gambar baru gagal simpan, hapus file baru agar tidak menumpuk
-            if ($imageName !== $currentImage && file_exists('../uploads/' . $imageName)) {
-                unlink('../uploads/' . $imageName);
-            }
+            $errors[] = "Gagal menyimpan perubahan.";
         }
     }
 }
@@ -84,53 +73,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Edit Artikel - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
-<body class="container mt-4">
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="dashboard.php">Admin Panel</a>
+        <a class="btn btn-outline-light" href="logout.php">Logout</a>
+    </div>
+</nav>
 
-    <h1>Edit Artikel</h1>
-    <a href="dashboard.php" class="btn btn-secondary mb-3">Kembali ke Dashboard</a>
+<div class="container">
+    <h1 class="mb-4">Edit Artikel</h1>
 
     <?php if ($errors): ?>
         <div class="alert alert-danger">
             <ul>
-            <?php foreach ($errors as $error): ?>
-                <li><?= htmlspecialchars($error) ?></li>
-            <?php endforeach; ?>
+                <?php foreach ($errors as $e): ?>
+                    <li><?= htmlspecialchars($e) ?></li>
+                <?php endforeach; ?>
             </ul>
         </div>
     <?php endif; ?>
 
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" action="" enctype="multipart/form-data">
         <div class="mb-3">
-            <label for="title" class="form-label">Judul</label>
-            <input type="text" name="title" id="title" class="form-control" value="<?= htmlspecialchars($title) ?>" required>
+            <label for="title" class="form-label">Judul Artikel</label>
+            <input type="text" class="form-control" id="title" name="title" value="<?= htmlspecialchars($post['title']) ?>" required />
         </div>
 
         <div class="mb-3">
-            <label for="content" class="form-label">Konten</label>
-            <textarea name="content" id="content" class="form-control" rows="8" required><?= htmlspecialchars($content) ?></textarea>
-        </div>
-
-        <div class="mb-3">
-            <label for="image" class="form-label">Gambar Utama (opsional)</label>
-            <?php if ($currentImage): ?>
-                <div class="mb-2">
-                    <img src="../uploads/<?= htmlspecialchars($currentImage) ?>" alt="Gambar lama" style="max-width: 200px; max-height: 150px; object-fit: contain;">
-                </div>
-            <?php endif; ?>
-            <input type="file" name="image" id="image" class="form-control" accept="image/*">
-            <small class="text-muted">Upload hanya jika ingin mengganti gambar.</small>
+            <label for="content" class="form-label">Isi Artikel</label>
+            <textarea class="form-control" id="content" name="content" rows="8" required><?= htmlspecialchars($post['content']) ?></textarea>
         </div>
 
         <div class="mb-3">
             <label for="status" class="form-label">Status</label>
             <select name="status" id="status" class="form-select">
-                <option value="draft" <?= $status === 'draft' ? 'selected' : '' ?>>Draft</option>
-                <option value="published" <?= $status === 'published' ? 'selected' : '' ?>>Published</option>
+                <option value="draft" <?= $post['status'] === 'draft' ? 'selected' : '' ?>>Draft</option>
+                <option value="published" <?= $post['status'] === 'published' ? 'selected' : '' ?>>Published</option>
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-    </form>
+        <div class="mb-3">
+            <label for="image" class="form-label">Gambar (opsional, upload untuk ganti gambar lama)</label><br />
+            <?php if (!empty($post['image'])): ?>
+                <img src="../uploads/<?= htmlspecialchars($post['image']) ?>" alt="Gambar Artikel" style="max-width: 200px; display: block; margin-bottom: 10px;" />
+            <?php endif; ?>
+            <input type="file" id="image" name="image" accept="image/*" />
+        </div>
 
+        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+        <a href="dashboard.php" class="btn btn-secondary">Batal</a>
+    </form>
+</div>
 </body>
 </html>
