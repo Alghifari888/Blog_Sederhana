@@ -1,7 +1,7 @@
-# ✨ Blog Sederhana - Modern PHP CMS Mini
+# Blog Sederhana - Modern PHP CMS Mini  #
 
-![Project Preview](https://via.placeholder.com/800x400?text=Blog+Sederhana+CMS+Preview) 
-*(Consider adding actual screenshots here)*
+✨ Kutipan
+"Aku tidak berilmu; yang berilmu hanyalah DIA. Jika tampak ilmu dariku, itu hanyalah pantulan dari Cahaya-Nya."
 
 **Blog Sederhana** adalah CMS mini berbasis PHP-MySQL dengan arsitektur modular dan tampilan elegan menggunakan Bootstrap 5. Dibangun untuk pembelajaran pengembangan web dengan fitur lengkap namun tetap sederhana.
 
@@ -134,7 +134,7 @@ MIT License - Bebas digunakan, dimodifikasi, dan didistribusikan.
 
 ## ✨ Penghargaan
 
-Dikembangkan dengan ❤ oleh [Alghifari](https://github.com/Alghifari888)  
+Dikembangkan dengan ❤ oleh [Alghifari888](https://github.com/Alghifari888)  
 💡 Terinspirasi oleh kebutuhan CMS sederhana untuk pembelajaran
 
 ---
