@@ -1,5 +1,3 @@
-
-```markdown
 # ✨ Blog Sederhana - Modern PHP CMS Mini
 
 ![Project Preview](https://via.placeholder.com/800x400?text=Blog+Sederhana+CMS+Preview) 
@@ -51,29 +49,6 @@
 - Fungsi utilitas global (slugify, dll)
 - Konfigurasi terpusat
 - Folder upload terproteksi
-
-## 📂 Struktur Proyek
-
-```bash
-blog_sederhana/
-├── admin/                # Admin backend
-│   ├── inc/              # Script admin
-│   ├── dashboard.php     # Panel kontrol
-│   ├── login.php         # Form autentikasi
-│   └── ...               # Lainnya
-├── assets/               # Komponen UI
-│   ├── navbar.php        # Navigasi
-│   └── footer.php        # Footer
-├── css/                  # Stylesheet
-│   ├── dashboard.css     # Gaya admin
-│   └── ...               # Gaya lainnya
-├── inc/                  # Core system
-│   ├── config.php        # Database config
-│   └── functions.php     # Helper functions
-├── uploads/              # Media storage
-├── index.php             # Homepage
-└── post.php              # Halaman artikel
-```
 
 ## 🛠️ Instalasi
 
