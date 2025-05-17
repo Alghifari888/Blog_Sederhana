@@ -1,0 +1,112 @@
+/* login.css */
+
+/* Reset & dasar body */
+body {
+    background-color: #f8f9fa; /* warna latar lembut */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center; /* pusatkan container horizontal */
+    align-items: center;     /* pusatkan container vertikal */
+    padding: 1rem;
+    margin: 0;
+}
+
+/* Container login */
+.container {
+    background-color: #fff; /* putih bersih */
+    padding: 2.5rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* maksimal lebar */
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
+}
+
+/* Efek hover/aktif untuk sentuhan modern */
+.container:hover, 
+.container:focus-within {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Judul login */
+h2 {
+    font-weight: 700;
+    font-size: 2rem;
+    color: #212529;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* Alert error */
+.alert {
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Label form */
+.form-label {
+    font-weight: 600;
+    color: #495057;
+}
+
+/* Input fields */
+.form-control {
+    border-radius: 8px;
+    border: 1.5px solid #ced4da;
+    padding: 0.6rem 0.75rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 5px rgba(13, 110, 253, 0.5);
+}
+
+/* Tombol login */
+.btn-primary {
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.75rem 0;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #0b5ed7;
+    box-shadow: 0 4px 12px rgba(11, 94, 215, 0.5);
+}
+
+/* Responsive tweaks */
+
+/* Pada layar sangat kecil (max-width 400px) */
+@media (max-width: 400px) {
+    .container {
+        padding: 2rem 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    .btn-primary {
+        font-size: 1rem;
+        padding: 0.65rem 0;
+    }
+}
+
+/* Pada tablet (max-width 768px) */
+@media (max-width: 768px) {
+    body {
+        padding: 2rem 1rem;
+    }
+
+    .container {
+        max-width: 100%;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    }
+}

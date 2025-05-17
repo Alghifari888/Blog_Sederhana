@@ -1,0 +1,74 @@
+/* post.css */
+
+/* Judul dan isi konten rata tengah */
+h1,
+.post-content {
+    text-align: center; /* Rata tengah */
+    color: #333;
+    padding: 0 1rem; /* Beri padding kiri kanan agar ada ruang di layar kecil */
+}
+
+/* Tanggal dipublikasikan supaya benar-benar rata tengah */
+small.text-muted {
+    display: block;      /* Supaya bisa diatur lebar */
+    text-align: center;  /* Rata tengah teks */
+    margin-top: 0.5rem;  /* Jarak atas */
+    color: #6c757d;      /* Warna muted bootstrap */
+}
+
+/* Styling konten agar tetap nyaman dibaca */
+.post-content {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-top: 1rem;
+    max-width: 700px; /* Maksimal lebar isi konten agar tidak terlalu lebar di layar besar */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Gambar post tetap rata tengah dan responsif */
+.post-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Media Queries untuk tampilan di layar kecil */
+
+/* Untuk layar kecil (max-width 576px) */
+@media (max-width: 576px) {
+    h1 {
+        font-size: 1.8rem; /* Ukuran font judul agak diperkecil */
+    }
+
+    .post-content {
+        font-size: 1rem; /* Font konten lebih kecil untuk layar kecil */
+        padding: 0 0.5rem; /* Padding kiri kanan lebih kecil */
+    }
+}
+
+/* Untuk layar sedang (tablet, max-width 768px) */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem; /* Sedikit lebih kecil dari desktop */
+    }
+
+    .post-content {
+        font-size: 1.05rem;
+    }
+}
+
+/* Untuk layar besar (desktop dan lebih) */
+@media (min-width: 992px) {
+    h1 {
+        font-size: 2.5rem; /* Ukuran judul lebih besar di desktop */
+    }
+
+    .post-content {
+        font-size: 1.15rem;
+    }
+}

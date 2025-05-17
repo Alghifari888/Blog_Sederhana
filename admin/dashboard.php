@@ -58,16 +58,12 @@ $posts = getAllPosts($conn);
     <meta charset="UTF-8" />
     <title>Dashboard Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/dashboard.css" />
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-    <div class="container">
-        <a href="dashboard.php" class="navbar-brand">Admin Panel</a>
-        <a href="logout.php" class="btn btn-outline-light">Logout</a>
-    </div>
-</nav>
+<?php include 'navbar.php'; // ✅ Footer di paling bawah ?>
 
-<div class="container">
+ <div class="container">
     <h1>Dashboard</h1>
     <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#postModal" onclick="openCreateModal()">Buat Artikel Baru</button>
 
@@ -183,5 +179,6 @@ function openEditModal(post) {
     postModal.show();
 }
 </script>
+<?php include 'footer.php'; // ✅ Footer di paling bawah ?>
 </body>
 </html>

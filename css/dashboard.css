@@ -1,0 +1,228 @@
+/* assets/css/style.css */
+
+/* Pastikan body dan html full tinggi dan menggunakan flexbox */
+html, body {
+    height: 100%;              /* Full tinggi viewport */
+    margin: 0;                 /* Hilangkan margin default */
+    display: flex;             /* Gunakan flexbox */
+    flex-direction: column;    /* Atur arah anaknya vertikal */
+}
+
+/* Container utama isi halaman dibuat fleksibel untuk mengisi ruang */
+.container {
+    flex: 1 0 auto;            /* Container ini fleksibel mengambil sisa ruang */
+}
+
+/* Tabel */
+table.table {
+    background-color: #fff;
+    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+table.table thead {
+    background-color: #343a40;
+    color: #fff;
+}
+
+table.table thead th {
+    text-align: center;
+    vertical-align: middle;
+}
+
+table.table tbody tr:hover {
+    background-color: #e9ecef;
+    cursor: pointer;
+}
+
+/* Tombol */
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-primary.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.85rem;
+}
+
+.btn-danger.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.85rem;
+}
+
+/* Modal */
+.modal-content {
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.modal-header {
+    background-color: #343a40;
+    color: #fff;
+    border-bottom: 2px solid #007bff;
+}
+
+.modal-title {
+    font-weight: 700;
+}
+
+.modal-body label {
+    font-weight: 600;
+}
+
+#current-image p {
+    margin-bottom: 5px;
+    font-style: italic;
+    color: #555;
+}
+
+#current-image img {
+    border-radius: 5px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+
+/* Navbar */
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    table.table thead {
+        display: none;
+    }
+    table.table tbody tr {
+        display: block;
+        margin-bottom: 15px;
+        background-color: #fff;
+        box-shadow: 0 0 6px rgba(0,0,0,0.05);
+        border-radius: 5px;
+        padding: 10px;
+    }
+    table.table tbody tr td {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 5px;
+        border: none;
+        border-bottom: 1px solid #dee2e6;
+    }
+    table.table tbody tr td:last-child {
+        border-bottom: 0;
+    }
+}
+
+/* dashboard.css */
+
+/* Reset dan body full height untuk footer tetap bawah */
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    flex-direction: column; /* supaya footer bisa selalu di bawah */
+    min-height: 100vh;
+}
+
+/* Container utama sebagai flex item */
+main.container {
+    flex: 1 0 auto; /* membuat main fleksibel agar footer di bawah */
+    padding-top: 80px; /* beri jarak untuk navbar fixed */
+}
+
+/* Navbar fixed-top agar selalu di atas */
+.navbar {
+    z-index: 1050; /* pastikan di atas konten lain */
+}
+
+/* Judul dashboard */
+h1 {
+    color: #212529;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* Selamat datang teks */
+p {
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+/* Kartu ringkasan */
+.summary-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect kartu ringkasan */
+.summary-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Jumlah angka besar */
+.summary-card h2 {
+    font-size: 3rem;
+    color: #0d6efd;
+    margin-bottom: 0.5rem;
+}
+
+/* Deskripsi angka */
+.summary-card p {
+    font-size: 1.2rem;
+    color: #6c757d;
+    margin: 0;
+}
+
+/* Footer tidak menyusut dan selalu di bawah */
+footer {
+    flex-shrink: 0;            /* Jangan menyusut */
+}
+
+/* Responsive design */
+
+/* Tablet */
+@media (max-width: 768px) {
+    main.container {
+        padding: 100px 1rem 40px 1rem;
+    }
+
+    .summary-card h2 {
+        font-size: 2.5rem;
+    }
+
+    .summary-card p {
+        font-size: 1rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    main.container {
+        padding: 100px 0.5rem 40px 0.5rem;
+    }
+
+    .summary-card h2 {
+        font-size: 2rem;
+    }
+
+    .summary-card p {
+        font-size: 0.9rem;
+    }
+}
+
