@@ -165,7 +165,8 @@ function openEditModal(post) {
     document.getElementById('postModalLabel').textContent = 'Edit Artikel';
     document.getElementById('post-id').value = post.id;
     document.getElementById('post-title').value = post.title;
-    document.getElementById('post-content').value = post.content || '';
+    document.getElementById('post-content').value = decodeHTMLEntities(post.content || '');
+
     document.getElementById('post-status').value = post.status;
     document.getElementById('post-image').value = '';
     
@@ -178,6 +179,15 @@ function openEditModal(post) {
 
     postModal.show();
 }
+
+
+// Fungsi untuk mengubah HTML entities menjadi karakter biasa
+function decodeHTMLEntities(text) {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = text;
+    return txt.value;
+}
+
 </script>
 <?php include 'footer.php'; // ✅ Footer di paling bawah ?>
 </body>
