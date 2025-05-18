@@ -30,7 +30,7 @@ if (!$post) {
     <title><?= htmlspecialchars($post['title']) ?> - Blog Sederhana</title>
 
     <!-- Load Bootstrap CSS dari CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+     <link href="bootstrap-5.3.6-dist/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Load CSS khusus untuk halaman ini -->
     <link rel="stylesheet" href="css/index.css" />
