@@ -20,7 +20,7 @@
         </li>
         <!-- Link ke beranda blog -->
         <li class="nav-item">
-          <a class="nav-link" href="index.php" target="_blank">Lihat Blog</a>
+          <a class="nav-link" href="../index.php" target="_blank">Lihat Blog</a>
         </li>
         <!-- Logout -->
         <li class="nav-item">
