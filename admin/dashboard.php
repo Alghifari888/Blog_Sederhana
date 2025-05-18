@@ -7,14 +7,12 @@ checkLogin();
 
 // Proses simpan data (create atau update)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Ambil data dari form
     $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
     $title = trim($_POST['title'] ?? '');
     $content = trim($_POST['content'] ?? '');
     $status = $_POST['status'] ?? 'draft';
     $slug = slugify($title);
 
-    // Upload gambar jika ada
     $imageName = null;
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $tmpName = $_FILES['image']['tmp_name'];
@@ -43,12 +41,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->close();
     }
 
-    // Redirect agar tidak repost data jika refresh
     header("Location: dashboard.php");
     exit;
 }
 
-// Ambil semua post
+// Jika ada request AJAX untuk ambil data post detail
+if (isset($_GET['action']) && $_GET['action'] === 'get_post' && isset($_GET['id'])) {
+    $id = (int)$_GET['id'];
+    $stmt = $conn->prepare("SELECT * FROM posts WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $post = $result->fetch_assoc();
+    $stmt->close();
+
+    header('Content-Type: application/json');
+    if ($post) {
+        echo json_encode([
+            'success' => true,
+            'data' => $post
+        ]);
+    } else {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Post tidak ditemukan'
+        ]);
+    }
+    exit;
+}
+
 $posts = getAllPosts($conn);
 ?>
 
@@ -61,9 +82,9 @@ $posts = getAllPosts($conn);
     <link rel="stylesheet" href="../css/dashboard.css" />
 </head>
 <body>
-<?php include 'navbar.php'; // ✅ Footer di paling bawah ?>
+<?php include 'navbar.php'; ?>
 
- <div class="container">
+<div class="container">
     <h1>Dashboard</h1>
     <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#postModal" onclick="openCreateModal()">Buat Artikel Baru</button>
 
@@ -95,7 +116,8 @@ $posts = getAllPosts($conn);
                         <td><?= htmlspecialchars($post['created_at'], ENT_QUOTES, 'UTF-8') ?></td>
                         <td>
                             <button class="btn btn-primary btn-sm" 
-                                onclick='openEditModal(<?= json_encode($post) ?>)'>Edit</button>
+                                data-id="<?= $post['id'] ?>"
+                                onclick="openEditModal(<?= $post['id'] ?>)">Edit</button>
                             <a href="delete.php?id=<?= (int)$post['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin mau hapus?')">Hapus</a>
                         </td>
                     </tr>
@@ -147,9 +169,12 @@ $posts = getAllPosts($conn);
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
+// Modal Bootstrap instance
 const postModal = new bootstrap.Modal(document.getElementById('postModal'));
 
+// Fungsi untuk modal buat baru
 function openCreateModal() {
     document.getElementById('postModalLabel').textContent = 'Buat Artikel Baru';
     document.getElementById('post-id').value = 0;
@@ -161,34 +186,38 @@ function openCreateModal() {
     postModal.show();
 }
 
-function openEditModal(post) {
-    document.getElementById('postModalLabel').textContent = 'Edit Artikel';
-    document.getElementById('post-id').value = post.id;
-    document.getElementById('post-title').value = post.title;
-    document.getElementById('post-content').value = decodeHTMLEntities(post.content || '');
+// Fungsi buka modal edit dengan AJAX load data dari server
+function openEditModal(postId) {
+    fetch(`dashboard.php?action=get_post&id=${postId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const post = data.data;
+                document.getElementById('postModalLabel').textContent = 'Edit Artikel';
+                document.getElementById('post-id').value = post.id;
+                document.getElementById('post-title').value = post.title;
+                document.getElementById('post-content').value = post.content;
+                document.getElementById('post-status').value = post.status;
+                document.getElementById('post-image').value = '';
 
-    document.getElementById('post-status').value = post.status;
-    document.getElementById('post-image').value = '';
-    
-    if (post.image) {
-        const imgHtml = `<p>Gambar saat ini:</p><img src="../uploads/${post.image}" style="max-height: 100px;" alt="Current Image" />`;
-        document.getElementById('current-image').innerHTML = imgHtml;
-    } else {
-        document.getElementById('current-image').innerHTML = '';
-    }
+                if (post.image) {
+                    document.getElementById('current-image').innerHTML = `<p>Gambar saat ini:</p><img src="../uploads/${post.image}" style="max-height: 100px;" alt="Current Image" />`;
+                } else {
+                    document.getElementById('current-image').innerHTML = '';
+                }
 
-    postModal.show();
+                postModal.show();
+            } else {
+                alert('Gagal memuat data artikel: ' + data.message);
+            }
+        })
+        .catch(err => {
+            alert('Terjadi kesalahan saat memuat data artikel.');
+            console.error(err);
+        });
 }
-
-
-// Fungsi untuk mengubah HTML entities menjadi karakter biasa
-function decodeHTMLEntities(text) {
-    const txt = document.createElement("textarea");
-    txt.innerHTML = text;
-    return txt.value;
-}
-
 </script>
-<?php include 'footer.php'; // ✅ Footer di paling bawah ?>
+
+<?php include 'footer.php'; ?>
 </body>
 </html>
