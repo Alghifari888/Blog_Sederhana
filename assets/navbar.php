@@ -18,7 +18,13 @@
         <li class="nav-item">
           <a class="nav-link active" href="index.php">Beranda</a>
         </li>
-        
+        <!-- Daftar menu navigasi silahkan kembangkan -->
+        <li class="nav-item">
+          <a class="nav-link" href="#">Tentang</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Kontak</a>
+        </li>
       </ul>
     </div>
   </div>
