@@ -9,7 +9,7 @@
 
 ✔ Sistem autentikasi admin yang aman  
 ✔ Manajemen artikel CRUD dengan upload gambar  
-✔ Generasi slug otomatis (SEO-friendly)  
+✔ Generasi slug otomatis
 ✔ Tampilan responsif & modern  
 ✔ Arsitektur terorganisir dengan komponen reusable  
 ✔ Dilengkapi sistem keamanan dasar  
