@@ -114,14 +114,6 @@
 - Password hashing
 - Pembatasan akses folder upload
 
-## 🖼️ Tampilan
-
-| Halaman | Deskripsi |
-|---------|-----------|
-| ![Home](https://via.placeholder.com/300x200?text=Homepage) | Daftar artikel |
-| ![Post](https://via.placeholder.com/300x200?text=Article) | Detail artikel |
-| ![Login](https://via.placeholder.com/300x200?text=Login) | Form admin |
-| ![Dashboard](https://via.placeholder.com/300x200?text=Dashboard) | Panel admin |
 
 ## 🤝 Berkontribusi
 
