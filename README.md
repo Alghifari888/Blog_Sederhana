@@ -3,6 +3,9 @@
 ✨ Kutipan
 "Aku tidak berilmu; yang berilmu hanyalah DIA. Jika tampak ilmu dariku, itu hanyalah pantulan dari Cahaya-Nya."
 
+## 🎥 Demo
+![Demo](./videoujicoba.gif)
+
 **Blog Sederhana** adalah CMS mini berbasis PHP-MySQL dengan arsitektur modular dan tampilan elegan menggunakan Bootstrap 5. Dibangun untuk pembelajaran pengembangan web dengan fitur lengkap namun tetap sederhana.
 
 ## 🌟 Highlights
