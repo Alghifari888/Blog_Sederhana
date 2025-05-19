@@ -66,7 +66,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `created_at`) VALUES
-(1, 'admin', '$2a$12$zAw0LX/h1NRq/yZX90L/C.M3ix83Xkfo9xl8AhSDPT7BODrcecpFu', 'alghifarihabib93@gmail.com\r\n', '2025-05-15 14:03:28');
+(1, 'admin', '$2a$12$zAw0LX/h1NRq/yZX90L/C.M3ix83Xkfo9xl8AhSDPT7BODrcecpFu', 'admin@gmail.com\r\n', '2025-05-15 14:03:28');
 
 --
 -- Indexes for dumped tables
