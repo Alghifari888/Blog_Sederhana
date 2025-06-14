@@ -123,9 +123,6 @@
 4. Push ke branch (`git push origin fitur-baru`)
 5. Buat Pull Request
 
-## 📜 Lisensi
-
-MIT License - Bebas digunakan, dimodifikasi, dan didistribusikan.
 
 ## ✨ Penghargaan
 
