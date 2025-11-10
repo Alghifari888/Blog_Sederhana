@@ -132,5 +132,3 @@ Dikembangkan dengan ❤ oleh [Alghifari888](https://github.com/Alghifari888)
 ---
 
 ⭐ Jika project ini membantu, mohon beri star di GitHub!  
-🔔 Pantau update terbaru untuk fitur-fitur baru!
-```
