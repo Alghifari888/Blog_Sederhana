@@ -129,9 +129,11 @@
 Dikembangkan dengan ❤ oleh [Alghifari888](https://github.com/Alghifari888)  
 💡 Terinspirasi oleh kebutuhan CMS sederhana untuk pembelajaran
 
+⭐ Jika project ini membantu, mohon beri star di GitHub!  
+
 ---
 
-⭐ Jika project ini membantu, mohon beri star di GitHub!  
+
 
 📄 License (English)
 This project is licensed under the MIT License.
